@@ -34,12 +34,12 @@ router.post("/login", async (req, res) => {
 
     !user && res.status(401).json("Wrong password or username!");
 
-    var bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
-    var originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+    const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
+    const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
 
-    if (originalPassword !== req.body.password) {
+    originalPassword !== req.body.password &&
       res.status(401).json("Wrong password or username!");
-    } else {
+
         //create accessToken
       const accessToken = jwt.sign({
         id: user._id,
@@ -48,7 +48,6 @@ router.post("/login", async (req, res) => {
 
       const { password, ...info } = user._doc;
       res.status(200).json({...info, accessToken});
-    }
   } catch (err) {
     res.status(400).json(err);
   }
