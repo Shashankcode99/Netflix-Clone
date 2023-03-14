@@ -28,7 +28,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
   },
   limit: {
-    type: genre,
+    type: String,
   },
   genre: {
     type: String,

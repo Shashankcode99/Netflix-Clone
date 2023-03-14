@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(morgan());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
-app.use("/api/movie", movieRoute);
+app.use("/api/movies", movieRoute);
 //Listening the app on PORT 8800
 app.listen(8800, () => {
   console.log(`Backend Server is Running On : 8800`);

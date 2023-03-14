@@ -8,7 +8,7 @@ const verification = require("../verifyToken");
 //CREATE A NEW MOVIE
 router.post("/", verification, async (req, res) => {
   if (req.user.isAdmin) {
-    const newMovie = new Movie(req.body);
+    const newMovie = new movieModel(req.body);
     try {
       const savedMovie = await newMovie.save();
       res.status(200).json(savedMovie);
@@ -46,7 +46,7 @@ router.put("/:id", verification, async (req, res) => {
 router.delete("/:id", verification, async (req, res) => {
   if (req.user.isAdmin) {
     try {
-      await newMovie.findByIdAndDelete(req.params.id);
+      await movieModel.findByIdAndDelete(req.params.id);
       res.status(200).json("The movie has been deleted...");
     } catch (error) {
       res.status(500).json(err);
@@ -57,9 +57,9 @@ router.delete("/:id", verification, async (req, res) => {
 });
 
 //GET A MOVIE
-router.get("find/:id", async (req, res) => {
+router.get("/find/:id", async (req, res) => {
   try {
-    const getMovie = await userModel.findById(req.params.id);
+    const getMovie = await movieModel.findById(req.params.id);
     res.status(200).json(getMovie);
   } catch (err) {
     res.status(500).json(err);
@@ -99,13 +99,10 @@ router.get("/random", async (req, res) => {
 //GET ALL
 
 router.get("/", verification, async (req, res) => {
-  const query = req.query.new;
   if (req.user.isAdmin) {
     try {
-      const allUsers = query
-        ? await userModel.find().sort({ _id: -1 }).limit(10)
-        : await userModel.find();
-      res.status(200).json(allUsers);
+      const allMovies = await movieModel.find();
+      res.status(200).json(allMovies.reverse());
     } catch (err) {
       res.status(500).json(err);
     }
@@ -135,7 +132,7 @@ router.get("/stats", async (req, res) => {
   ];
 
   try {
-    const data = await userModel.aggregate([
+    const data = await movieModel.aggregate([
       {
         $project: {
           month: { $month: "$createdAt" },
