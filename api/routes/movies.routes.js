@@ -13,10 +13,10 @@ router.post("/", verification, async (req, res) => {
       const savedMovie = await newMovie.save();
       res.status(200).json(savedMovie);
     } catch (error) {
-      res.status(500).json(err);
+      res.status(500).json(error);
     }
   } else {
-    res.post(403).json("You are not allowedn to add movie!");
+    res.status(403).json("You are not allowedn to add movie!");
   }
 });
 
@@ -35,10 +35,10 @@ router.put("/:id", verification, async (req, res) => {
       );
       res.status(200).json(updatedMovie);
     } catch (error) {
-      res.status(500).json(err);
+      res.status(500).json(error);
     }
   } else {
-    res.post(403).json("You are not allowed to add movie!");
+    res.status(403).json("You are not allowed to add movie!");
   }
 });
 
@@ -49,10 +49,10 @@ router.delete("/:id", verification, async (req, res) => {
       await movieModel.findByIdAndDelete(req.params.id);
       res.status(200).json("The movie has been deleted...");
     } catch (error) {
-      res.status(500).json(err);
+      res.status(500).json(error);
     }
   } else {
-    res.post(403).json("You are not allowed to delete a movie!");
+    res.status(403).json("You are not allowed to delete a movie!");
   }
 });
 
@@ -61,8 +61,8 @@ router.get("/find/:id", async (req, res) => {
   try {
     const getMovie = await movieModel.findById(req.params.id);
     res.status(200).json(getMovie);
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -91,8 +91,8 @@ router.get("/random", async (req, res) => {
       ]);
     }
     res.status(200).json(movie);
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -103,8 +103,8 @@ router.get("/", verification, async (req, res) => {
     try {
       const allMovies = await movieModel.find();
       res.status(200).json(allMovies.reverse());
-    } catch (err) {
-      res.status(500).json(err);
+    } catch (error) {
+      res.status(500).json(error);
     }
   } else {
     res.status(403).json("You are not allowed to see all users");

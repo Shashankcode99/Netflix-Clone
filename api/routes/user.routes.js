@@ -26,8 +26,8 @@ router.put("/:id", verification, async (req, res) => {
         }
       );
       res.status(200).json(updatedUser);
-    } catch (err) {
-      res.status(500).json(err);
+    } catch (error) {
+      res.status(500).json(error);
     }
   } else {
     res.status(403).json("You can update only your account!");
@@ -40,8 +40,8 @@ router.delete("/:id", verification, async (req, res) => {
     try {
       await userModel.findByIdAndDelete(req.params.id);
       res.status(200).json("User has been deleted");
-    } catch (err) {
-      res.status(500).json(err);
+    } catch (error) {
+      res.status(500).json(error);
     }
   } else {
     res.status(403).json("You can delete only your account!");
@@ -55,8 +55,8 @@ router.get("find/:id", async (req, res) => {
     const getUser = await userModel.findById(req.params.id);
     const { password, ...info } = getUser._doc;
     res.status(200).json(info);
-  } catch (err) {
-    res.status(500).json(err);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -70,8 +70,8 @@ router.get("/", verification, async (req, res) => {
         ? await userModel.find().sort({ _id: -1 }).limit(10)
         : await userModel.find();
       res.status(200).json(allUsers);
-    } catch (err) {
-      res.status(500).json(err);
+    } catch (error) {
+      res.status(500).json(error);
     }
   } else {
     res.status(403).json("You are not allowed to see all users");

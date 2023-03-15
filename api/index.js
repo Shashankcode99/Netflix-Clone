@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const authRoute = require("./routes/auth.js");
 const userRoute = require("./routes/user.routes.js");
 const movieRoute = require("./routes/movies.routes.js");
+const listRoute = require("./routes/list.routes.js");
 
 //Making DB Connection
 mongoose
@@ -28,6 +29,7 @@ app.use(morgan());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/movies", movieRoute);
+app.use("/api/lists", listRoute);
 //Listening the app on PORT 8800
 app.listen(8800, () => {
   console.log(`Backend Server is Running On : 8800`);
