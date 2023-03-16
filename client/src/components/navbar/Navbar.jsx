@@ -2,6 +2,8 @@ import { Search, Notifications, ArrowDropDown } from "@material-ui/icons";
 import React from "react";
 import { useState } from "react";
 import "./navbar.scss";
+import { Link } from "react-router-dom";
+
 // import LanguageIcon from '@mui/icons-material/Language';
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,9 +22,15 @@ const Navbar = () => {
             src="https://www.freepnglogos.com/uploads/netflix-logo-text-emblem-31.png"
             alt="netflix_logo"
           />
-          <span>Home</span>
-          <span>Movies</span>
-          <span>Series</span>
+          <Link to="/" className="link">
+            <span>Home</span>
+          </Link>
+          <Link to="/movies" className="link">
+            <span>Movies</span>
+          </Link>
+          <Link to="/series" className="link">
+            <span>Series</span>
+          </Link>
           <span>New and Popular</span>
           <span>My List</span>
         </div>
