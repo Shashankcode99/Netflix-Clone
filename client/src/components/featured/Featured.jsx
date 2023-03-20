@@ -1,14 +1,34 @@
 import { InfoOutlined, PlayArrow } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./featured.scss";
 export default function Featured({ type }) {
+  const [content, setContent] = useState({});
+
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTIzMjAwOSwiZXhwIjoxNjc5ODM2ODA5fQ.31TRct45_t_77_HnovDlw2QOqz3Lhh1KLwM5oxMtLTY",
+          },
+        });
+        setContent(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+  console.log(content);
   return (
     <div className="featured">
       {type && (
         <div className="category">
           <span>{type === "movies" ? "Movies" : "Web Series"}</span>
           <select name="genre" id="genre">
-            <option >Genre</option>
+            <option>Genre</option>
             <option value="adventure">Adventure</option>
             <option value="comedy">Comedy</option>
             <option value="crime">Crime</option>
@@ -25,25 +45,11 @@ export default function Featured({ type }) {
           </select>
         </div>
       )}
-      <img
-        src="https://thurrott.s3.amazonaws.com/wp-content/uploads/sites/2/2022/01/14172326/netflix-1536x864.jpg"
-        alt="featured_img"
-      />
+      <img src={content.img} alt="featured_img" />
 
       <div className="info">
-        <img
-          src="https://gumlet.assettype.com/dtnext%2F2022-12%2F6c0e20f8-38e7-40d5-9486-0a2561baecdf%2FUntitled_21_.jpg?rect=1%2C0%2C999%2C562&auto=format%2Ccompress&fit=max&format=webp&w=768&dpr=1.3"
-          alt=""
-        />
-        <span className="desc">
-          Smart, sarcastic and a little dead inside, Wednesday Addams
-          investigates a murder spree while making new friends — and foes — at
-          Nevermore Academy.
-          <br />
-          <br />
-          Starring:Jenna Ortega,Gwendoline Christie,Riki Lindhome
-          Creators:Alfred Gough,Miles Millar
-        </span>
+        <img src={content.imgTitle} alt="" />
+        <span className="desc">{content.desc}</span>
 
         <div className="buttons">
           <button className="play">

@@ -4,53 +4,65 @@ import {
   ThumbDownAltOutlined,
   ThumbUpAltOutlined,
 } from "@material-ui/icons";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./listItem.scss";
+import { Link } from "react-router-dom";
 
-export default function ListItem({ index }) {
+export default function ListItem({ index, item }) {
   const [isHovered, setIsHovered] = useState(false);
-  const trailer = "https://twitter.com/i/status/1462058191106232322";
+  const [movie, setMovie] = useState({});
+
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get("/movies/find/" + item, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTIzMjAwOSwiZXhwIjoxNjc5ODM2ODA5fQ.31TRct45_t_77_HnovDlw2QOqz3Lhh1KLwM5oxMtLTY",
+          },
+        });
+        setMovie(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovie();
+  }, [item]);
   return (
-    <div
-      className="listItem"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={{ left: isHovered && index * 225 - 50 + index * 2.5 + 65 }}
-    >
-      <img
-        src="https://images-cdn.ubuy.co.in/63576bdb2ba1513cd45cf732-peaky-blinders-poster-season-1-key-art.jpg"
-        alt=""
-      />
+    <Link to={{ pathname: "/watch", movie: movie }}>
+      <div
+        className="listItem"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{ left: isHovered && index * 225 - 50 + index * 2.5 + 65 }}
+      >
+        <img src={movie.img} alt="" />
 
-      {isHovered && (
-        <>
-          <video src={trailer} autoPlay={true} loop></video>
-          <div className="itemInfo">
-            <div className="icons">
-              <PlayArrow className="icon" />
-              <Add className="icon" />
-              <ThumbUpAltOutlined className="icon" />
-              <ThumbDownAltOutlined className="icon" />
+        {isHovered && (
+          <>
+            <video src={movie.trailer} autoPlay={true} loop></video>
+            <div className="itemInfo">
+              <div className="icons">
+                <PlayArrow className="icon" />
+                <Add className="icon" />
+                <ThumbUpAltOutlined className="icon" />
+                <ThumbDownAltOutlined className="icon" />
+              </div>
+
+              <div className="itemInfoTop">
+                <span>{movie.duration}</span>
+                <span className="limit">+{movie.limit}</span>
+                <span>{movie.year}</span>
+              </div>
+
+              <div className="desc">{movie.desc}</div>
+
+              <div className="genre">{movie.genre}</div>
             </div>
-
-            <div className="itemInfoTop">
-              <span>1 hour 14 minutes</span>
-              <span className="limit">+16</span>
-              <span>1999</span>
-            </div>
-
-            <div className="desc">
-              Peaky Blinders is a crime drama centred on a family of mixed Irish
-              Traveller and Romani origins based in Birmingham, England,
-              starting in 1919, several months after the end of the First World
-              War. It centres on the Peaky Blinders street gang and their
-              ambitious, cunning crime boss Tommy Shelby (Murphy).
-            </div>
-
-            <div className="genre">Action</div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Link>
   );
 }
