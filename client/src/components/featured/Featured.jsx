@@ -8,13 +8,14 @@ export default function Featured({ type }) {
   useEffect(() => {
     const getRandomContent = async () => {
       try {
-        const res = await axios.get(`/movies/random?type=${type}`, {
+        //POV : endpoint should be dynmaic /movies/random?type=${type} 
+        const res = await axios.get(`/movies/random?type=series`, {
           headers: {
             token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTIzMjAwOSwiZXhwIjoxNjc5ODM2ODA5fQ.31TRct45_t_77_HnovDlw2QOqz3Lhh1KLwM5oxMtLTY",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTgyODc4MywiZXhwIjoxNjgwNDMzNTgzfQ.mtuDJFEiAJLrRtSt__Kk_QF3Kwt5eokItQXgMVYAOFo",
           },
         });
-        setContent(res.data);
+        setContent(res.data[0]);
       } catch (error) {
         console.log(error);
       }

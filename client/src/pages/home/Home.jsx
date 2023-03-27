@@ -12,13 +12,13 @@ const Home = ({ type }) => {
     const getRandomLists = async () => {
       try {
         const res = await axios.get(
-          `lists${type ? "?type=" + type : ""}${
+          `/lists${type ? "?type=" + type : ""}${
             genre ? "&genre=" + genre : ""
           }`,
           {
             headers: {
               token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTA1NjgxMCwiZXhwIjoxNjc5NjYxNjEwfQ.XGZZd616Khdt7-7DMEN_l1bN2UgPYK8JOzK-uBAW7HY",
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MGE4NGRmNTY5NmJhYzQ4MGQ1YThiYSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY3OTgyODc4MywiZXhwIjoxNjgwNDMzNTgzfQ.mtuDJFEiAJLrRtSt__Kk_QF3Kwt5eokItQXgMVYAOFo",
             },
           }
         );
